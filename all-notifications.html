@@ -1,0 +1,649 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="azentio Banking – All Notifications"/>
+  <title>azentio – Notifications</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="css/fonts.css"/>
+  <link rel="stylesheet" href="css/flag-icons.min.css"/>
+  <link rel="stylesheet" href="css/styles.css"/>
+  <style>
+/* ── Notification page layout ─────────────────────────── */
+.np-top-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: .75rem; margin-bottom: 1.25rem;
+}
+.np-title { font-size: 1.125rem; font-weight: 700; color: var(--az-navy); }
+.np-actions { display: flex; align-items: center; gap: .625rem; }
+.np-btn {
+  display: inline-flex; align-items: center; gap: .375rem;
+  padding: .4375rem .875rem; border-radius: .375rem;
+  font-size: .8125rem; font-weight: 500; cursor: pointer;
+  border: 1.5px solid var(--az-border); background: #fff;
+  color: var(--az-navy); text-decoration: none;
+  transition: background .12s, border-color .12s;
+  font-family: 'Roboto', sans-serif;
+}
+.np-btn:hover { background: #f0faf5; border-color: var(--az-green); color: var(--az-navy); }
+.np-btn-mark svg { color: var(--az-green); }
+.np-btn-clear { color: #e55353; border-color: #e9d0d0; }
+.np-btn-clear:hover { background: #fff5f5; border-color: #e55353; color: #e55353; }
+
+/* ── Filter tabs ──────────────────────────────────────── */
+.np-filters { display: flex; align-items: center; gap: .25rem; margin-bottom: 1.25rem; }
+.np-filter {
+  padding: .4375rem 1rem; border-radius: 2rem;
+  font-size: .8125rem; font-weight: 500; cursor: pointer;
+  border: 1.5px solid var(--az-border); background: #fff;
+  color: var(--az-muted); transition: all .15s;
+  font-family: 'Roboto', sans-serif;
+}
+.np-filter:hover { border-color: var(--az-green); color: var(--az-navy); }
+.np-filter.active {
+  background: var(--az-green); border-color: var(--az-green);
+  color: #fff; font-weight: 600;
+}
+.np-filter .count {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px; border-radius: 50%;
+  font-size: .6875rem; font-weight: 700; margin-left: .25rem;
+  background: rgba(255,255,255,.25); color: inherit;
+}
+.np-filter:not(.active) .count {
+  background: var(--az-border); color: var(--az-navy);
+}
+
+/* ── Date group ───────────────────────────────────────── */
+.np-group { margin-bottom: 1.5rem; }
+.np-group-label {
+  font-size: .75rem; font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--az-muted);
+  padding: 0 0 .5rem; border-bottom: 1px solid var(--az-border);
+  margin-bottom: .625rem;
+}
+
+/* ── Notification row ─────────────────────────────────── */
+.np-row {
+  display: flex; align-items: flex-start; gap: .875rem;
+  padding: .875rem 1rem;
+  border: 1px solid var(--az-border); border-radius: .5rem;
+  margin-bottom: .5rem; background: #fff;
+  transition: background .12s, box-shadow .12s;
+  position: relative;
+}
+.np-row:hover { background: #fafcfd; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+.np-row.np-unread {
+  background: #f5fdf9;
+  border-left: 3px solid var(--az-green);
+}
+.np-row.np-unread:hover { background: #edf9f2; }
+
+/* category icon circle */
+.np-icon {
+  width: 40px; height: 40px; min-width: 40px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.np-icon svg { width: 19px; height: 19px; }
+.np-icon-prayer   { background: #e6f5ee; }
+.np-icon-prayer svg { color: var(--az-green); }
+.np-icon-invest   { background: #e5f0fb; }
+.np-icon-invest svg { color: var(--az-blue); }
+.np-icon-alert    { background: #fff5e6; }
+.np-icon-alert svg { color: #f59e0b; }
+.np-icon-transfer { background: #eef4fe; }
+.np-icon-transfer svg { color: #4b7cf3; }
+.np-icon-security { background: #fdf0f0; }
+.np-icon-security svg { color: #e55353; }
+.np-icon-account  { background: #f0f0fa; }
+.np-icon-account svg { color: #6366f1; }
+.np-icon-finance  { background: #e8f8f3; }
+.np-icon-finance svg { color: #0d9488; }
+
+/* content */
+.np-content { flex: 1; min-width: 0; }
+.np-row-title { font-size: .875rem; font-weight: 500; color: var(--az-navy); line-height: 1.4; }
+.np-unread .np-row-title { font-weight: 700; }
+.np-row-body { font-size: .8125rem; color: var(--az-muted); margin-top: .2rem; line-height: 1.45; }
+.np-row-time {
+  display: inline-flex; align-items: center; gap: .3rem;
+  font-size: .75rem; color: var(--az-muted); margin-top: .375rem;
+}
+.np-row-time svg { width: 12px; height: 12px; flex-shrink: 0; }
+
+/* right side */
+.np-row-right {
+  display: flex; flex-direction: column; align-items: flex-end;
+  gap: .5rem; flex-shrink: 0;
+}
+.np-unread-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--az-green);
+}
+.np-row-actions { display: flex; align-items: center; gap: .375rem; }
+.np-act-btn {
+  width: 30px; height: 30px; border-radius: .375rem;
+  border: 1px solid var(--az-border); background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: background .1s, border-color .1s;
+}
+.np-act-btn:hover { background: #f0faf5; border-color: var(--az-green); }
+.np-act-btn.del:hover { background: #fff5f5; border-color: #e55353; }
+.np-act-btn svg { width: 14px; height: 14px; }
+.np-act-btn.del svg { color: #e55353; }
+.np-act-btn:not(.del) svg { color: var(--az-green); }
+
+/* Empty state */
+.np-empty {
+  text-align: center; padding: 3rem 1rem;
+  display: none;
+}
+.np-empty svg { color: var(--az-border); margin-bottom: 1rem; }
+.np-empty-msg { font-size: .9375rem; color: var(--az-muted); }
+  </style>
+  <link rel="stylesheet" href="css/dark.css"/>
+  <script src="js/theme.js"></script>
+</head>
+<body>
+
+<!-- ████ HEADER ████ -->
+<header class="app-hdr" role="banner">
+  <div class="hdr-logo" id="hdrLogo">
+    <span class="hdr-logo-svg" aria-label="azentio" role="img"><svg xmlns="http://www.w3.org/2000/svg" width="130" height="28" viewBox="0 0 152.97 40.623"><g transform="translate(0.275 -0.84)"><path d="M.354,32.831c0-6.456,4.037-11.054,10.014-11.054a8.083,8.083,0,0,1,7.146,3.914h.243V22.3h3.229V39.489c0,.647.4.968,1.049.968H23V43.28h-2.06a3.025,3.025,0,0,1-3.069-3.106v-.2h-.243a7.874,7.874,0,0,1-7.025,3.833C4.589,43.807.349,39.246.349,32.833Zm17.523.043c0-5.2-3.229-8.191-7.146-8.191-4.117,0-7.106,3.39-7.106,8.191s3.109,8.07,7.146,8.07C15.172,40.944,17.877,37.273,17.877,32.873Z" transform="translate(0 -2.967)" fill="#16303d" stroke="#16303d" stroke-width="1.247"/><path d="M25.83,39.369l12.8-14.123V25H26.192V22.3H41.615v3.914l-12.8,14.123v.243h13v2.7H25.828V39.369Z" transform="translate(-1.95 -2.967)" fill="#16303d" stroke="#16303d" stroke-width="1.247"/><path d="M44.242,32.873c0-6.7,4.6-11.1,10.174-11.1,6.34,0,9.973,4.438,9.973,10.733v1.171H47.511c.04,4.681,2.785,7.3,7.146,7.3a6.249,6.249,0,0,0,6.34-4.6l3.109.727c-1.172,3.914-4.644,6.7-9.489,6.7-6.381,0-10.377-4.478-10.377-10.934ZM61.12,31.1a6.341,6.341,0,0,0-6.7-6.456A6.729,6.729,0,0,0,47.594,31.1Z" transform="translate(-3.457 -2.967)" fill="#16303d" stroke="#16303d" stroke-width="1.247"/><path d="M68.025,22.3h3.189v3.066h.243a6.855,6.855,0,0,1,6.421-3.59c4.885,0,7.833,3.67,7.833,8.311V43.28H82.522V30.288a5.314,5.314,0,0,0-5.41-5.528,5.829,5.829,0,0,0-5.9,6.012V43.28H68.027V22.3Z" transform="translate(-5.24 -2.967)" fill="#16303d" stroke="#16303d" stroke-width="1.247"/><path d="M92.49,37.311V25.006H88.534V22.3h4.16V16.211h2.988V22.3h6.46v2.7h-6.46V37.271c0,2.259.928,3.227,3.149,3.227h3.029V43.28H98.871c-3.836,0-6.381-1.735-6.381-5.972Z" transform="translate(-6.642 -2.967)" fill="#16303d" stroke="#16303d" stroke-width="1.247"/><path d="M108.721,25.006h-3.957V22.3h7.146v20.98h-3.189ZM108,16.168a2.249,2.249,0,0,1,2.3-2.3,2.319,2.319,0,1,1,0,4.638A2.235,2.235,0,0,1,108,16.168Z" transform="translate(-7.575 -2.967)" fill="#16303d" stroke="#16303d" stroke-width="1.247"/><path d="M116.271,32.79a10.962,10.962,0,1,1,21.924,0,10.962,10.962,0,1,1-21.924,0Zm18.654,0c0-4.641-3.189-8.111-7.712-8.111s-7.673,3.51-7.673,8.111,3.189,8.111,7.673,8.111S134.925,37.471,134.925,32.79Z" transform="translate(-9.244 -2.967)" fill="#16303d" stroke="#16303d" stroke-width="1.247"/><path d="M142.3,28.6V11.084A10.251,10.251,0,0,1,152.549.842v17.52A10.251,10.251,0,0,1,142.3,28.6Z" transform="translate(-11.301)" fill="#2ed88e"/><path d="M153.748,18.359V.84A10.25,10.25,0,0,1,164,11.081V28.6A10.251,10.251,0,0,1,153.748,18.359Z" transform="translate(-11.301)" fill="#2ed88e"/></g></svg></span>
+  </div>
+  <div class="hdr-right">
+    <a href="about-us.html" target="_blank" class="hdr-icon-btn" title="About Us" aria-label="About Us"><img src="images/icons/about_us.svg" width="18" height="18" alt="about us" loading="lazy"/></a>
+    <div class="hdr-div" role="separator"></div>
+    <div class="notif-wrap">
+      <button class="hdr-icon-btn" title="Notifications" aria-label="Notifications" style="position:relative">
+        <img src="images/icons/notification.svg" width="18" height="18" alt="notification" loading="lazy"/><span class="notif-dot" aria-label="3 notifications">3</span>
+      </button>
+      <div class="notif-dropdown" role="dialog" aria-label="Notifications panel">
+        <div class="notif-panel-hdr">
+          <span class="notif-panel-title">Notifications</span>
+          <a href="#" class="notif-clear-all">Clear all</a>
+        </div>
+        <div class="notif-list">
+          <div class="notif-item notif-unread">
+            <div class="notif-content">
+              <div class="notif-msg">Upcoming Prayer - 06:01 AM Fajr</div>
+              <div class="notif-time">1 hr ago</div>
+            </div>
+            <span class="notif-ind"></span>
+          </div>
+          <div class="notif-item notif-unread">
+            <div class="notif-content">
+              <div class="notif-msg">Investment maturing notification</div>
+              <div class="notif-time">2 hrs ago</div>
+            </div>
+            <span class="notif-ind"></span>
+          </div>
+          <div class="notif-item">
+            <div class="notif-content">
+              <div class="notif-msg notif-msg-read">Notification for Coupon payout / Dividend payout</div>
+              <div class="notif-time">6 hrs ago</div>
+            </div>
+            <span class="notif-ind"></span>
+          </div>
+        </div>
+        <div class="notif-footer">
+          <button class="notif-view-all" onclick="location.href='all-notifications.html'">VIEW ALL NOTIFICATIONS</button>
+        </div>
+      </div>
+    </div>
+    <a href="contact-us.html" target="_blank" class="hdr-icon-btn" title="Contact Us" aria-label="Contact Us"><img src="images/icons/call_us.svg" width="18" height="18" alt="services" loading="lazy"/></a>
+    <a href="faq.html" target="_blank" class="hdr-icon-btn" title="FAQ" aria-label="FAQ"><img src="images/icons/information.svg" width="18" height="18" alt="information" loading="lazy"/></a>
+    <div class="hdr-div" role="separator"></div>
+    <div class="hdr-lang-wrap">
+    <button class="hdr-lang" aria-label="Language: English"><span class="fi fi-us"></span> <span class="lang-txt">ENG</span> <svg xmlns="http://www.w3.org/2000/svg" width="9" height="6" viewBox="0 0 10.53 7"><path d="M9.225,0L5.695,3.62,2.075.09,0,1.795,5.325,7,10.53,1.675Z" fill="#2ed88e"/></svg></button>
+      <div class="hdr-lang-drop" role="listbox" aria-label="Select language">
+        <button class="hdr-lang-opt active" onclick="setHdrLang('ENG','us',this)" role="option" aria-selected="true">
+          <span class="fi fi-us"></span> English
+        </button>
+        <button class="hdr-lang-opt" onclick="setHdrLang('FR','fr',this)" role="option" aria-selected="false">
+          <span class="fi fi-fr"></span> French
+        </button>
+        <button class="hdr-lang-opt" onclick="setHdrLang('عربي','sa',this)" role="option" aria-selected="false">
+          <span class="fi fi-sa"></span> عربي
+        </button>
+      </div>
+    </div>
+    <div class="hdr-avatar-wrap">
+      <img src="images/user_s.png" class="hdr-avatar" alt="User profile" onerror="this.src='images/user_m.png'"/>
+      <div class="avatar-dropdown" role="menu">
+        <div class="av-drop-top">
+          <img src="images/user_m.png" class="av-drop-photo" alt="Shadab Pervaiz" onerror="this.style.display='none'"/>
+          <div class="av-drop-userinfo">
+            <div class="av-drop-name">Shadab Pervaiz</div>
+            <div class="av-drop-login-lbl">Last Login</div>
+            <div class="av-drop-login-time">
+              <span class="t-part">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                22 Nov,2025
+              </span>
+              <span class="t-sep">|</span>
+              <span class="t-part">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                14.06
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="av-drop-details">
+          <div class="av-detail-row"><span class="av-detail-lbl">Username:</span><span class="av-detail-val">shadab.pervaiz</span></div>
+          <div class="av-detail-row"><span class="av-detail-lbl">CIF Name:</span><span class="av-detail-val">Shadab Pervaiz A.</span></div>
+          <div class="av-detail-row"><span class="av-detail-lbl">Nickname:</span><span class="av-detail-val">Shadab</span></div>
+        </div>
+        <div class="av-drop-nav">
+          <a href="my-profile-details.html" class="av-nav-link" role="menuitem">
+            <div class="av-nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+            My Profile
+          </a>
+          <a href="my-tasks.html" class="av-nav-link" role="menuitem">
+            <div class="av-nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+            My Tasks
+          </a>
+        </div>
+      </div>
+    </div>
+    <a href="login.html" class="btn-logout" style="text-decoration:none">Logout</a>
+  </div>
+</header>
+
+<!-- ████ SIDEBAR ████ -->
+<aside class="app-sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
+  <button class="sb-collapse-btn" id="collapseBtn" aria-label="Toggle navigation" aria-expanded="true" title="Collapse sidebar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <nav class="sb-nav">
+  <button class="sb-item" data-label="Quick Links" onclick="toggleSub('sQL','cQL')"><span class="sb-icon"><img src="images/icons/quick_links.svg" width="18" height="18" alt=""/></span><span class="sb-label">Quick Links</span><span class="sb-chevron" id="cQL"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="7" viewBox="0 0 10.53 7"><path d="M9.225,0L5.695,3.62,2.075.09,0,1.795,5.325,7,10.53,1.675Z" fill="currentColor"/></svg></span></button>
+  <div id="sQL" class="sb-sub" style="display:none"><a href="#" class="sb-sub-item">Favourites</a></div>
+  <button class="sb-item" data-label="Dashboard"><span class="sb-icon"><img src="images/icons/dashboard.svg" width="18" height="18" alt=""/></span><span class="sb-label">Dashboard</span></button>
+  <button class="sb-item" data-label="Accounts" onclick="toggleSub('sAcc','cAcc')"><span class="sb-icon"><img src="images/icons/accounts.svg" width="18" height="18" alt=""/></span><span class="sb-label">Accounts</span><span class="sb-chevron" id="cAcc"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="7" viewBox="0 0 10.53 7"><path d="M9.225,0L5.695,3.62,2.075.09,0,1.795,5.325,7,10.53,1.675Z" fill="currentColor"/></svg></span></button>
+  <div id="sAcc" class="sb-sub" style="display:none"><a href="accounts.html" class="sb-sub-item">My Accounts</a><a href="transaction-history.html" class="sb-sub-item">Transaction History</a><a href="general-account-opening.html" class="sb-sub-item">General Account Opening</a><a href="term-deposit-account-opening.html" class="sb-sub-item">Term Deposit Account Opening</a></div>
+  <button class="sb-item" data-label="Transfers" onclick="toggleSub('sTr','cTr')"><span class="sb-icon"><img src="images/icons/transfer.svg" width="18" height="18" alt=""/></span><span class="sb-label">Transfers</span><span class="sb-chevron" id="cTr"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="7" viewBox="0 0 10.53 7"><path d="M9.225,0L5.695,3.62,2.075.09,0,1.795,5.325,7,10.53,1.675Z" fill="currentColor"/></svg></span></button>
+  <div id="sTr" class="sb-sub" style="display:none">
+    <a href="transfer-pending-list.html" class="sb-sub-item">Pending Transfers List</a>
+    <button class="sb-sub2-hdr" onclick="toggleSub('sImm','cImm')">Immediate Transfer <span class="sb-chev-sm" id="cImm"><svg xmlns="http://www.w3.org/2000/svg" width="8" height="6" viewBox="0 0 10.53 7"><path d="M9.225,0L5.695,3.62,2.075.09,0,1.795,5.325,7,10.53,1.675Z" fill="currentColor"/></svg></span></button>
+    <div id="sImm" class="sb-sub3" style="display:none"><a href="transfer-own-accounts.html" class="sb-sub3-item">Own Accounts Transfer</a><a href="transfer-internal.html" class="sb-sub3-item">Internal Transfer</a><a href="transfer-local.html" class="sb-sub3-item">Local Transfer</a><a href="transfer-international.html" class="sb-sub3-item">International Transfer</a></div>
+    <a href="transfer-list.html" class="sb-sub-item">Transfer List</a>
+    <button class="sb-sub2-hdr" onclick="toggleSub('sSched','cSched')">Scheduled Transfer <span class="sb-chev-sm" id="cSched"><svg xmlns="http://www.w3.org/2000/svg" width="8" height="6" viewBox="0 0 10.53 7"><path d="M9.225,0L5.695,3.62,2.075.09,0,1.795,5.325,7,10.53,1.675Z" fill="currentColor"/></svg></span></button>
+    <div id="sSched" class="sb-sub3" style="display:none"><a href="scheduled-transfers-list.html" class="sb-sub3-item">Scheduled Transfers List</a><a href="scheduled-own-account.html" class="sb-sub3-item">Scheduled Own Account Transfer</a><a href="scheduled-internal.html" class="sb-sub3-item">Scheduled Internal Transfer</a><a href="scheduled-local.html" class="sb-sub3-item">Scheduled Local Transfer</a><a href="scheduled-international.html" class="sb-sub3-item">Scheduled International Transfer</a></div>
+    <button class="sb-sub2-hdr" onclick="toggleSub('sBulk','cBulk')">Bulk Payment <span class="sb-chev-sm" id="cBulk"><svg xmlns="http://www.w3.org/2000/svg" width="8" height="6" viewBox="0 0 10.53 7"><path d="M9.225,0L5.695,3.62,2.075.09,0,1.795,5.325,7,10.53,1.675Z" fill="currentColor"/></svg></span></button>
+    <div id="sBulk" class="sb-sub3" style="display:none"><a href="bulk-payment-offline.html" class="sb-sub3-item">Offline Bulk Payment</a><a href="bulk-payment-upload.html" class="sb-sub3-item">Bulk Payment Upload</a><a href="bulk-payment-list.html" class="sb-sub3-item">Bulk Payment List</a></div>
+  </div>
+  <button class="sb-item" data-label="Payments" onclick="toggleSub('sPay','cPay')"><span class="sb-icon"><img src="images/icons/payments.svg" width="18" height="18" alt=""/></span><span class="sb-label">Payments</span><span class="sb-chevron" id="cPay"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="7" viewBox="0 0 10.53 7"><path d="M9.225,0L5.695,3.62,2.075.09,0,1.795,5.325,7,10.53,1.675Z" fill="currentColor"/></svg></span></button>
+  <div id="sPay" class="sb-sub" style="display:none"><a href="beneficiary-management.html" class="sb-sub-item">Beneficiary Management</a><a href="transfer-cash-request.html" class="sb-sub-item">Cash Transfer Request</a><a href="payments-favorites.html" class="sb-sub-item">Favorites Management</a><a href="payments-bill-report.html" class="sb-sub-item">Bill Payments Report</a><a href="payments-qr-payment.html" class="sb-sub-item">QR Code Payments</a><a href="payments-qr-request.html" class="sb-sub-item">Request QR Code</a></div>
+  <button class="sb-item" data-label="Cards" onclick="toggleSub('sCards','cCards')"><span class="sb-icon"><img src="images/icons/cards.svg" width="18" height="18" alt=""/></span><span class="sb-label">Cards</span><span class="sb-chevron" id="cCards"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="7" viewBox="0 0 10.53 7"><path d="M9.225,0L5.695,3.62,2.075.09,0,1.795,5.325,7,10.53,1.675Z" fill="currentColor"/></svg></span></button>
+  <div id="sCards" class="sb-sub" style="display:none"><a href="cards-my-cards.html" class="sb-sub-item">My Cards</a><a href="cards-debit-request.html" class="sb-sub-item">Debit Card Request</a><a href="cards-credit-request.html" class="sb-sub-item">Credit Card Request</a><a href="cards-prepaid-request.html" class="sb-sub-item">Prepaid Card Request</a><a href="cards-prepaid-recharge.html" class="sb-sub-item">Prepaid Card Recharge</a><button class="sb-sub2-hdr" onclick="toggleSub('sSettle','cSettle')">Credit Card Settlement <span class="sb-chev-sm" id="cSettle"><svg xmlns="http://www.w3.org/2000/svg" width="8" height="6" viewBox="0 0 10.53 7"><path d="M9.225,0L5.695,3.62,2.075.09,0,1.795,5.325,7,10.53,1.675Z" fill="currentColor"/></svg></span></button><div id="sSettle" class="sb-sub3" style="display:none"><a href="cards-settlement-my.html" class="sb-sub3-item">My Credit Card Settlement</a><a href="cards-settlement-bank.html" class="sb-sub3-item">Bank Credit Card Settlement</a><a href="cards-settlement-local.html" class="sb-sub3-item">Local Credit Card Settlement</a></div><a href="cards-report.html" class="sb-sub-item">Card Report</a></div>
+  <button class="sb-item" data-label="Chequebook" onclick="toggleSub('sCheq','cCheq')"><span class="sb-icon"><img src="images/icons/chequebook.svg" width="18" height="18" alt=""/></span><span class="sb-label">Chequebook</span><span class="sb-chevron" id="cCheq"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="7" viewBox="0 0 10.53 7"><path d="M9.225,0L5.695,3.62,2.075.09,0,1.795,5.325,7,10.53,1.675Z" fill="currentColor"/></svg></span></button>
+  <div id="sCheq" class="sb-sub" style="display:none"><a href="my-chequebooks.html" class="sb-sub-item">My Chequebooks</a><a href="chequebook-request.html" class="sb-sub-item">Request Chequebook</a><a href="chequebook-report.html" class="sb-sub-item">Chequebook Report</a></div>
+  <button class="sb-item" data-label="Remittance" onclick="toggleSub('sRem','cRem')"><span class="sb-icon"><img src="images/icons/remittance.svg" width="18" height="18" alt=""/></span><span class="sb-label">Remittance</span><span class="sb-chevron" id="cRem"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="7" viewBox="0 0 10.53 7"><path d="M9.225,0L5.695,3.62,2.075.09,0,1.795,5.325,7,10.53,1.675Z" fill="currentColor"/></svg></span></button>
+  <div id="sRem" class="sb-sub" style="display:none"><a href="remittance-intra-bank.html" class="sb-sub-item">Intra Bank Remittance Request</a><a href="remittance-local.html" class="sb-sub-item">Local Remittance Request</a><a href="remittance-international.html" class="sb-sub-item">International Remittance Request</a></div>
+  <button class="sb-item" data-label="Sweeping and Pooling" onclick="toggleSub('sSP','cSP')"><span class="sb-icon"><img src="images/icons/sweeping_and_pooling.svg" width="18" height="18" alt=""/></span><span class="sb-label">Sweeping and Pooling</span><span class="sb-chevron" id="cSP"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="7" viewBox="0 0 10.53 7"><path d="M9.225,0L5.695,3.62,2.075.09,0,1.795,5.325,7,10.53,1.675Z" fill="currentColor"/></svg></span></button>
+  <div id="sSP" class="sb-sub" style="display:none"><a href="#" class="sb-sub-item">Sweeping and Pooling</a></div>
+  <button class="sb-item" data-label="Financing" onclick="toggleSub('sFin','cFin')"><span class="sb-icon"><img src="images/icons/financing.svg" width="18" height="18" alt=""/></span><span class="sb-label">Financing</span><span class="sb-chevron" id="cFin"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="7" viewBox="0 0 10.53 7"><path d="M9.225,0L5.695,3.62,2.075.09,0,1.795,5.325,7,10.53,1.675Z" fill="currentColor"/></svg></span></button>
+  <div id="sFin" class="sb-sub" style="display:none"><a href="financing-my-facilities.html" class="sb-sub-item">My Facilities</a><a href="financing-facility-request.html" class="sb-sub-item">Financial Facility Request</a><a href="financing-payment.html" class="sb-sub-item">Financing Payment</a><a href="financing-calculator.html" class="sb-sub-item">Financial Calculator</a></div>
+  <button class="sb-item" data-label="Cash Management" onclick="toggleSub('sCM','cCM')"><span class="sb-icon"><img src="images/icons/cash_management.svg" width="18" height="18" alt=""/></span><span class="sb-label">Cash Management</span><span class="sb-chevron" id="cCM"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="7" viewBox="0 0 10.53 7"><path d="M9.225,0L5.695,3.62,2.075.09,0,1.795,5.325,7,10.53,1.675Z" fill="currentColor"/></svg></span></button>
+  <div id="sCM" class="sb-sub" style="display:none"><a href="#" class="sb-sub-item">Cash Management</a></div>
+  <button class="sb-item" data-label="Trade Finance" onclick="toggleSub('sTF','cTF')"><span class="sb-icon"><img src="images/icons/trade_finance.svg" width="18" height="18" alt=""/></span><span class="sb-label">Trade Finance</span><span class="sb-chevron" id="cTF"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="7" viewBox="0 0 10.53 7"><path d="M9.225,0L5.695,3.62,2.075.09,0,1.795,5.325,7,10.53,1.675Z" fill="currentColor"/></svg></span></button>
+  <div id="sTF" class="sb-sub" style="display:none"><a href="tf-lc-request.html" class="sb-sub-item">Request for Letter of Credit</a><a href="tf-lc-status.html" class="sb-sub-item">LC Status and Details</a><a href="tf-lg-request.html" class="sb-sub-item">Letter of Guarantee</a><a href="tf-lg-status.html" class="sb-sub-item">LG Status and Details</a><a href="tf-ob-request.html" class="sb-sub-item">Request for Outward Bill</a><a href="tf-ob-status.html" class="sb-sub-item">OB Status and Details</a></div>
+  <button class="sb-item" data-label="Services" onclick="toggleSub('sSvc','cSvc')"><span class="sb-icon"><img src="images/icons/services.svg" width="18" height="18" alt=""/></span><span class="sb-label">Services</span><span class="sb-chevron" id="cSvc"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="7" viewBox="0 0 10.53 7"><path d="M9.225,0L5.695,3.62,2.075.09,0,1.795,5.325,7,10.53,1.675Z" fill="currentColor"/></svg></span></button>
+  <div id="sSvc" class="sb-sub" style="display:none"><a href="#" class="sb-sub-item">Services</a></div>
+  <button class="sb-item" data-label="Corporate End User Management Reports"><span class="sb-icon"><img src="images/icons/corporate_end_user.svg" width="18" height="18" alt=""/></span><span class="sb-label">Corporate End User Management Reports</span></button>
+  </nav>
+</aside>
+
+<!-- ████ MAIN ████ -->
+<div class="app-main" id="appMain">
+  <main class="main-body" role="main">
+
+    <!-- Breadcrumb -->
+    <div class="az-bc">
+      <a href="accounts.html">Home</a>
+      <span class="sep">&#8250;</span>
+      <span class="cur">Notifications</span>
+    </div>
+
+    <!-- Top bar -->
+    <div class="np-top-bar">
+      <h1 class="np-title">Notifications</h1>
+      <div class="np-actions">
+        <button class="np-btn np-btn-mark" onclick="markAllRead()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M20 6L9 17l-5-5"/></svg>
+          Mark all as read
+        </button>
+        <button class="np-btn np-btn-clear" onclick="clearAll()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+          Clear all
+        </button>
+      </div>
+    </div>
+
+    <!-- Filter tabs -->
+    <div class="np-filters">
+      <button class="np-filter active" id="fAll"    onclick="filterNotif('all')">All <span class="count" id="cAll">8</span></button>
+      <button class="np-filter"        id="fUnread" onclick="filterNotif('unread')">Unread <span class="count" id="cUnread">3</span></button>
+      <button class="np-filter"        id="fRead"   onclick="filterNotif('read')">Read <span class="count" id="cRead">5</span></button>
+    </div>
+
+    <!-- ─── Today ─────────────────────────────────────────── -->
+    <div class="np-group" id="grpToday">
+      <div class="np-group-label">Today</div>
+
+      <!-- 1 Prayer – UNREAD -->
+      <div class="np-row np-unread" data-state="unread" id="n1">
+        <div class="np-icon np-icon-prayer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+        </div>
+        <div class="np-content">
+          <div class="np-row-title">Upcoming Prayer - 06:01 AM Fajr</div>
+          <div class="np-row-body">Your next prayer time is approaching. Fajr prayer at 06:01 AM.</div>
+          <div class="np-row-time">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            1 hr ago &nbsp;·&nbsp; 05 May 2026, 05:30 AM
+          </div>
+        </div>
+        <div class="np-row-right">
+          <span class="np-unread-dot"></span>
+          <div class="np-row-actions">
+            <button class="np-act-btn" title="Mark as read" onclick="markRead('n1')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+            </button>
+            <button class="np-act-btn del" title="Delete" onclick="deleteNotif('n1')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2 Investment – UNREAD -->
+      <div class="np-row np-unread" data-state="unread" id="n2">
+        <div class="np-icon np-icon-invest">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </div>
+        <div class="np-content">
+          <div class="np-row-title">Investment maturing notification</div>
+          <div class="np-row-body">Your term deposit of AED 50,000 is maturing on 10 May 2026. Please review your maturity instructions.</div>
+          <div class="np-row-time">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            2 hrs ago &nbsp;·&nbsp; 05 May 2026, 04:30 AM
+          </div>
+        </div>
+        <div class="np-row-right">
+          <span class="np-unread-dot"></span>
+          <div class="np-row-actions">
+            <button class="np-act-btn" title="Mark as read" onclick="markRead('n2')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+            </button>
+            <button class="np-act-btn del" title="Delete" onclick="deleteNotif('n2')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 Finance – READ -->
+      <div class="np-row" data-state="read" id="n3">
+        <div class="np-icon np-icon-finance">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        </div>
+        <div class="np-content">
+          <div class="np-row-title">Notification for Coupon payout / Dividend payout</div>
+          <div class="np-row-body">Your coupon payout of AED 1,250.00 has been credited to your account.</div>
+          <div class="np-row-time">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            6 hrs ago &nbsp;·&nbsp; 05 May 2026, 12:30 AM
+          </div>
+        </div>
+        <div class="np-row-right">
+          <div class="np-row-actions">
+            <button class="np-act-btn del" title="Delete" onclick="deleteNotif('n3')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 Alert – UNREAD -->
+      <div class="np-row np-unread" data-state="unread" id="n4">
+        <div class="np-icon np-icon-alert">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <div class="np-content">
+          <div class="np-row-title">Low balance alert – Account IBAN8000</div>
+          <div class="np-row-body">Your account balance has fallen below the minimum threshold of AED 1,000. Current balance: AED 720.50.</div>
+          <div class="np-row-time">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            8 hrs ago &nbsp;·&nbsp; 04 May 2026, 10:30 PM
+          </div>
+        </div>
+        <div class="np-row-right">
+          <span class="np-unread-dot"></span>
+          <div class="np-row-actions">
+            <button class="np-act-btn" title="Mark as read" onclick="markRead('n4')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+            </button>
+            <button class="np-act-btn del" title="Delete" onclick="deleteNotif('n4')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── Yesterday ──────────────────────────────────────── -->
+    <div class="np-group" id="grpYesterday">
+      <div class="np-group-label">Yesterday</div>
+
+      <!-- 5 Transfer – READ -->
+      <div class="np-row" data-state="read" id="n5">
+        <div class="np-icon np-icon-transfer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+        </div>
+        <div class="np-content">
+          <div class="np-row-title">Transfer to John Doe – AED 5,000 completed</div>
+          <div class="np-row-body">Your local transfer of AED 5,000.00 to John Doe (Ref: TXN2026050401) has been processed successfully.</div>
+          <div class="np-row-time">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            1 day ago &nbsp;·&nbsp; 04 May 2026, 02:15 PM
+          </div>
+        </div>
+        <div class="np-row-right">
+          <div class="np-row-actions">
+            <button class="np-act-btn del" title="Delete" onclick="deleteNotif('n5')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6 Security – READ -->
+      <div class="np-row" data-state="read" id="n6">
+        <div class="np-icon np-icon-security">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="np-content">
+          <div class="np-row-title">Security alert – Login from new device</div>
+          <div class="np-row-body">A login was detected from a new device: Chrome on Windows 11 (IP: 192.168.1.45). If this wasn't you, please change your password immediately.</div>
+          <div class="np-row-time">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            1 day ago &nbsp;·&nbsp; 04 May 2026, 09:00 AM
+          </div>
+        </div>
+        <div class="np-row-right">
+          <div class="np-row-actions">
+            <button class="np-act-btn del" title="Delete" onclick="deleteNotif('n6')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── This Week ──────────────────────────────────────── -->
+    <div class="np-group" id="grpWeek">
+      <div class="np-group-label">This Week</div>
+
+      <!-- 7 Investment maturity – READ -->
+      <div class="np-row" data-state="read" id="n7">
+        <div class="np-icon np-icon-invest">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <div class="np-content">
+          <div class="np-row-title">Upcoming term deposit maturity – 10 May 2026</div>
+          <div class="np-row-body">Your term deposit (TD-0041) of AED 50,000 will mature in 5 days. Please set your maturity instructions before the date.</div>
+          <div class="np-row-time">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            3 days ago &nbsp;·&nbsp; 02 May 2026, 10:00 AM
+          </div>
+        </div>
+        <div class="np-row-right">
+          <div class="np-row-actions">
+            <button class="np-act-btn del" title="Delete" onclick="deleteNotif('n7')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8 Account / Statement – READ -->
+      <div class="np-row" data-state="read" id="n8">
+        <div class="np-icon np-icon-account">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+        <div class="np-content">
+          <div class="np-row-title">Account statement ready – March 2026</div>
+          <div class="np-row-body">Your account statement for March 2026 is ready. You can download it from Transaction History.</div>
+          <div class="np-row-time">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            5 days ago &nbsp;·&nbsp; 30 Apr 2026, 08:00 AM
+          </div>
+        </div>
+        <div class="np-row-right">
+          <div class="np-row-actions">
+            <button class="np-act-btn del" title="Delete" onclick="deleteNotif('n8')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty state (shown when all deleted) -->
+    <div class="np-empty" id="npEmpty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="56" height="56">
+        <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+        <path d="M13.73 21a2 2 0 01-3.46 0"/>
+        <line x1="2" y1="2" x2="22" y2="22" stroke-width="1.5"/>
+      </svg>
+      <div class="np-empty-msg">No notifications to show</div>
+    </div>
+
+  </main>
+  <footer class="app-footer" role="contentinfo">
+    <div>Copyright 2025. All Rights Reserved <a href="#">Terms and conditions</a><a href="about-app.html" target="_blank">About App</a></div>
+    <div class="d-flex align-items-center gap-2">
+      <a href="accessibility-commitment.html" target="_blank">Accessibility</a>
+      <div class="acc-btns">
+        <button class="acc-btn" aria-label="Decrease font size">A<sup>-</sup></button>
+        <button class="acc-btn" aria-label="Default font size">A</button>
+        <button class="acc-btn" aria-label="Increase font size">A<sup>+</sup></button>
+        <button class="acc-btn acc-btn-theme" onclick="toggleDarkMode()" aria-label="Toggle dark mode">&#9681;</button>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+/* ── Notification state management ─────────────────────── */
+const total    = 8;
+let unreadIds  = new Set(['n1','n2','n4']);          // initially unread
+let deletedIds = new Set();
+
+function updateCounts() {
+  const alive   = total - deletedIds.size;
+  const unread  = [...unreadIds].filter(id => !deletedIds.has(id)).length;
+  const read    = alive - unread;
+  document.getElementById('cAll').textContent    = alive;
+  document.getElementById('cUnread').textContent = unread;
+  document.getElementById('cRead').textContent   = read;
+  // check empty state
+  document.getElementById('npEmpty').style.display = alive === 0 ? 'block' : 'none';
+  // hide empty groups
+  ['grpToday','grpYesterday','grpWeek'].forEach(grpId => {
+    const grp   = document.getElementById(grpId);
+    const items = grp.querySelectorAll('.np-row');
+    const vis   = [...items].filter(r => r.style.display !== 'none');
+    grp.style.display = vis.length === 0 ? 'none' : '';
+  });
+}
+
+function markRead(id) {
+  const row = document.getElementById(id);
+  if (!row) return;
+  unreadIds.delete(id);
+  row.classList.remove('np-unread');
+  row.dataset.state = 'read';
+  const dot  = row.querySelector('.np-unread-dot');
+  const btn  = row.querySelector('.np-act-btn:not(.del)');
+  if (dot) dot.remove();
+  if (btn) btn.remove();
+  applyFilter(document.querySelector('.np-filter.active').id.replace('f','').toLowerCase());
+  updateCounts();
+}
+
+function deleteNotif(id) {
+  const row = document.getElementById(id);
+  if (!row) return;
+  row.style.transition = 'opacity .2s, max-height .3s';
+  row.style.opacity = '0';
+  row.style.overflow = 'hidden';
+  setTimeout(() => {
+    row.style.maxHeight = '0';
+    row.style.padding   = '0';
+    row.style.margin    = '0';
+    row.style.border    = 'none';
+  }, 200);
+  setTimeout(() => { row.style.display = 'none'; }, 500);
+  deletedIds.add(id);
+  unreadIds.delete(id);
+  setTimeout(updateCounts, 510);
+}
+
+function markAllRead() {
+  document.querySelectorAll('.np-row.np-unread').forEach(row => markRead(row.id));
+}
+
+function clearAll() {
+  document.querySelectorAll('.np-row').forEach(row => {
+    if (row.style.display !== 'none') deleteNotif(row.id);
+  });
+}
+
+function applyFilter(filter) {
+  document.querySelectorAll('.np-row').forEach(row => {
+    if (deletedIds.has(row.id)) return;       // keep hidden
+    if (filter === 'all') {
+      row.style.display = '';
+    } else if (filter === 'unread') {
+      row.style.display = row.dataset.state === 'unread' ? '' : 'none';
+    } else {
+      row.style.display = row.dataset.state === 'read'   ? '' : 'none';
+    }
+  });
+  updateCounts();
+}
+
+function filterNotif(filter) {
+  document.querySelectorAll('.np-filter').forEach(f => f.classList.remove('active'));
+  document.getElementById('f' + filter.charAt(0).toUpperCase() + filter.slice(1)).classList.add('active');
+  applyFilter(filter);
+}
+
+updateCounts();
+</script>
+</body>
+</html>

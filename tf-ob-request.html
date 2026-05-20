@@ -1,0 +1,301 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>azentio – Request for Outward Bill</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="css/fonts.css"/>
+  <link rel="stylesheet" href="css/flag-icons.min.css"/>
+  <link rel="stylesheet" href="css/styles.css"/>
+  <link rel="stylesheet" href="css/dark.css"/>
+  <script src="js/theme.js"></script>
+</head>
+<body>
+<header class="app-hdr" role="banner">
+  <div class="hdr-logo" id="hdrLogo"><span class="hdr-logo-svg" aria-label="azentio" role="img"><svg xmlns="http://www.w3.org/2000/svg" width="130" height="28" viewBox="0 0 152.97 40.623"><g transform="translate(0.275 -0.84)"><path d="M.354,32.831c0-6.456,4.037-11.054,10.014-11.054a8.083,8.083,0,0,1,7.146,3.914h.243V22.3h3.229V39.489c0,.647.4.968,1.049.968H23V43.28h-2.06a3.025,3.025,0,0,1-3.069-3.106v-.2h-.243a7.874,7.874,0,0,1-7.025,3.833C4.589,43.807.349,39.246.349,32.833Zm17.523.043c0-5.2-3.229-8.191-7.146-8.191-4.117,0-7.106,3.39-7.106,8.191s3.109,8.07,7.146,8.07C15.172,40.944,17.877,37.273,17.877,32.873Z" transform="translate(0 -2.967)" fill="#16303d" stroke="#16303d" stroke-width="1.247"/><path d="M25.83,39.369l12.8-14.123V25H26.192V22.3H41.615v3.914l-12.8,14.123v.243h13v2.7H25.828V39.369Z" transform="translate(-1.95 -2.967)" fill="#16303d" stroke="#16303d" stroke-width="1.247"/><path d="M44.242,32.873c0-6.7,4.6-11.1,10.174-11.1,6.34,0,9.973,4.438,9.973,10.733v1.171H47.511c.04,4.681,2.785,7.3,7.146,7.3a6.249,6.249,0,0,0,6.34-4.6l3.109.727c-1.172,3.914-4.644,6.7-9.489,6.7-6.381,0-10.377-4.478-10.377-10.934ZM61.12,31.1a6.341,6.341,0,0,0-6.7-6.456A6.729,6.729,0,0,0,47.594,31.1Z" transform="translate(-3.457 -2.967)" fill="#16303d" stroke="#16303d" stroke-width="1.247"/><path d="M68.025,22.3h3.189v3.066h.243a6.855,6.855,0,0,1,6.421-3.59c4.885,0,7.833,3.67,7.833,8.311V43.28H82.522V30.288a5.314,5.314,0,0,0-5.41-5.528,5.829,5.829,0,0,0-5.9,6.012V43.28H68.027V22.3Z" transform="translate(-5.24 -2.967)" fill="#16303d" stroke="#16303d" stroke-width="1.247"/><path d="M92.49,37.311V25.006H88.534V22.3h4.16V16.211h2.988V22.3h6.46v2.7h-6.46V37.271c0,2.259.928,3.227,3.149,3.227h3.029V43.28H98.871c-3.836,0-6.381-1.735-6.381-5.972Z" transform="translate(-6.642 -2.967)" fill="#16303d" stroke="#16303d" stroke-width="1.247"/><path d="M108.721,25.006h-3.957V22.3h7.146v20.98h-3.189ZM108,16.168a2.249,2.249,0,0,1,2.3-2.3,2.319,2.319,0,1,1,0,4.638A2.235,2.235,0,0,1,108,16.168Z" transform="translate(-7.575 -2.967)" fill="#16303d" stroke="#16303d" stroke-width="1.247"/><path d="M116.271,32.79a10.962,10.962,0,1,1,21.924,0,10.962,10.962,0,1,1-21.924,0Zm18.654,0c0-4.641-3.189-8.111-7.712-8.111s-7.673,3.51-7.673,8.111,3.189,8.111,7.673,8.111S134.925,37.471,134.925,32.79Z" transform="translate(-9.244 -2.967)" fill="#16303d" stroke="#16303d" stroke-width="1.247"/><path d="M142.3,28.6V11.084A10.251,10.251,0,0,1,152.549.842v17.52A10.251,10.251,0,0,1,142.3,28.6Z" transform="translate(-11.301)" fill="#2ed88e"/><path d="M153.748,18.359V.84A10.25,10.25,0,0,1,164,11.081V28.6A10.251,10.251,0,0,1,153.748,18.359Z" transform="translate(-11.301)" fill="#2ed88e"/></g></svg></span></div>
+  <div class="hdr-right">
+    <a href="about-us.html" target="_blank" class="hdr-icon-btn" title="About Us" aria-label="About Us"><img src="images/icons/about_us.svg" width="18" height="18" alt="about us" loading="lazy"/></a>
+    <div class="hdr-div"></div>
+    <div class="notif-wrap">
+      <button class="hdr-icon-btn" title="Notifications" aria-label="Notifications" style="position:relative"><img src="images/icons/notification.svg" width="18" height="18" alt="notifications" loading="lazy"/><span class="notif-dot"></span></button>
+      <div class="notif-dropdown" role="dialog" aria-label="Notifications panel">
+        <div class="notif-panel-hdr"><span class="notif-panel-title">Notifications</span><a href="#" class="notif-clear-all">Clear all</a></div>
+        <div class="notif-list">
+          <div class="notif-item notif-unread"><div class="notif-content"><div class="notif-msg">Upcoming Prayer - 06:01 AM Fajr</div><div class="notif-time">1 hr ago</div></div><span class="notif-ind"></span></div>
+          <div class="notif-item notif-unread"><div class="notif-content"><div class="notif-msg">Investment maturing notification</div><div class="notif-time">2 hrs ago</div></div><span class="notif-ind"></span></div>
+          <div class="notif-item"><div class="notif-content"><div class="notif-msg notif-msg-read">Notification for Coupon payout / Dividend payout</div><div class="notif-time">6 hrs ago</div></div><span class="notif-ind"></span></div>
+        </div>
+        <div class="notif-footer"><button class="notif-view-all" onclick="location.href='all-notifications.html'">VIEW ALL NOTIFICATIONS</button></div>
+      </div>
+    </div>
+    <button class="hdr-icon-btn" title="Support" aria-label="Support"><img src="images/icons/services.svg" width="18" height="18" alt="support" loading="lazy"/></button>
+    <button class="hdr-icon-btn" title="Help" aria-label="Help"><img src="images/icons/information.svg" width="18" height="18" alt="help" loading="lazy"/></button>
+    <div class="hdr-div"></div>
+    <div class="hdr-lang-wrap">
+      <button class="hdr-lang" aria-label="Language"><span class="fi fi-us"></span> <span class="lang-txt">ENG</span> <svg xmlns="http://www.w3.org/2000/svg" width="9" height="6" viewBox="0 0 10.53 7"><path d="M9.225,0L5.695,3.62,2.075.09,0,1.795,5.325,7,10.53,1.675Z" fill="#2ed88e"/></svg></button>
+      <div class="hdr-lang-drop" role="listbox" aria-label="Select language">
+        <button class="hdr-lang-opt active" onclick="setHdrLang('ENG','us',this)" role="option" aria-selected="true"><span class="fi fi-us"></span> English</button>
+        <button class="hdr-lang-opt" onclick="setHdrLang('FR','fr',this)" role="option" aria-selected="false"><span class="fi fi-fr"></span> French</button>
+        <button class="hdr-lang-opt" onclick="setHdrLang('عربي','sa',this)" role="option" aria-selected="false"><span class="fi fi-sa"></span> عربي</button>
+      </div>
+    </div>
+    <div class="hdr-avatar-wrap">
+      <img src="images/user_s.png" class="hdr-avatar" alt="User profile" onerror="this.src='images/user_m.png'"/>
+      <div class="avatar-dropdown" role="menu">
+        <div class="av-drop-top">
+          <img src="images/user_m.png" class="av-drop-photo" alt="Shadab Pervaiz" onerror="this.style.display='none'"/>
+          <div class="av-drop-userinfo">
+            <div class="av-drop-name">Shadab Pervaiz</div>
+            <div class="av-drop-login-lbl">Last Login</div>
+            <div class="av-drop-login-time">
+              <span class="t-part"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>22 Nov,2025</span>
+              <span class="t-sep">|</span>
+              <span class="t-part"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>14.06</span>
+            </div>
+          </div>
+        </div>
+        <div class="av-drop-details">
+          <div class="av-detail-row"><span class="av-detail-lbl">Username:</span><span class="av-detail-val">shadab.pervaiz</span></div>
+          <div class="av-detail-row"><span class="av-detail-lbl">CIF Name:</span><span class="av-detail-val">Shadab Pervaiz A.</span></div>
+          <div class="av-detail-row"><span class="av-detail-lbl">Nickname:</span><span class="av-detail-val">Shadab</span></div>
+        </div>
+        <div class="av-drop-nav">
+          <a href="my-profile-details.html" class="av-nav-link" role="menuitem"><div class="av-nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>My Profile</a>
+          <a href="my-tasks.html" class="av-nav-link" role="menuitem"><div class="av-nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>My Tasks</a>
+        </div>
+      </div>
+    </div>
+    <a href="login.html" class="btn-logout" style="text-decoration:none">Logout</a>
+  </div>
+</header>
+<aside class="app-sidebar" id="sidebar">
+  <button class="sb-collapse-btn" id="collapseBtn" aria-label="Toggle navigation" aria-expanded="true" title="Collapse sidebar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <nav class="sb-nav">
+    <button class="tf-wiz-back" onclick="location.href='tf-lg-status.html'">&#8592; Back to Main Navigation</button>
+    <div class="tf-wiz-step active" onclick="showStep(1)">
+      <div class="tf-wiz-num">1</div>
+      <div class="tf-wiz-lbl">Outward Bill Details</div>
+      <span class="tf-wiz-pct p100">100%</span>
+    </div>
+    <div class="tf-wiz-step" onclick="showStep(2)">
+      <div class="tf-wiz-num">2</div>
+      <div class="tf-wiz-lbl">Outward Bill Type</div>
+      <span class="tf-wiz-pct p0">0%</span>
+    </div>
+  </nav>
+</aside>
+<div class="app-main" id="appMain">
+  <main class="main-body" role="main">
+    <div class="az-bc"><a href="#">Home</a><span class="sep">&#8250;</span><a href="#">Trade Finance</a><span class="sep">&#8250;</span><span class="cur">Request For Outward Bill</span></div>
+    <h1 class="page-title mb-4" id="pageTitle">Outward Bill Details</h1>
+    <div class="tf-wiz-main">
+      <div>
+        <!-- Step 1: Outward Bill Details -->
+        <div id="step1" class="tf-step-panel">
+          <div class="sec-card mb-3">
+            <div class="sec-hdr open" onclick="toggleSec('secBillDet')" role="button">
+              <span>Bill Details</span>
+              <svg class="chev" xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 10.53 7"><path d="M9.225,0L5.695,3.62,2.075.09,0,1.795,5.325,7,10.53,1.675Z" fill="#2ed88e"/></svg>
+            </div>
+            <div class="sec-body" id="secBillDet">
+              <div class="row g-3 mb-3">
+                <div class="col-md-4"><label class="f-label">Bill Types</label><select class="f-input f-select"><option value="">Select LG Types</option><option>Type A</option><option>Type B</option></select></div>
+                <div class="col-md-4">
+                  <label class="f-label">Total Amount</label>
+                  <div class="amount-field">
+                    <div class="amount-curr">
+                      <span class="fi fi-us amount-flag" id="obAmtFlag"></span>
+                      <select id="obAmtCurr" onchange="updateCurrFlag(this)" aria-label="Currency">
+                        <option value="USD">USD</option><option value="EUR">EUR</option><option value="IQD">IQD</option><option value="GBP">GBP</option>
+                      </select>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="10" height="7" viewBox="0 0 10.53 7"><path d="M9.225,0L5.695,3.62,2.075.09,0,1.795,5.325,7,10.53,1.675Z" fill="#2ed88e"/></svg>
+                    </div>
+                    <input class="amount-inp" type="text" value="00.00" aria-label="Amount"/>
+                  </div>
+                </div>
+                <div class="col-md-4"><label class="f-label">Bill Reference</label><input class="f-input" type="text" placeholder="Enter Bill Reference"/></div>
+              </div>
+            </div>
+          </div>
+          <div class="sec-card mb-3">
+            <div class="sec-hdr open" onclick="toggleSec('secBankDet')" role="button">
+              <span>Bank Details</span>
+              <svg class="chev" xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 10.53 7"><path d="M9.225,0L5.695,3.62,2.075.09,0,1.795,5.325,7,10.53,1.675Z" fill="#2ed88e"/></svg>
+            </div>
+            <div class="sec-body" id="secBankDet">
+              <div class="row g-3 mb-3">
+                <div class="col-auto"><div class="toggle-wrap"><label class="az-toggle"><input type="checkbox" checked/><span class="az-toggle-slider"></span></label><span>Same Bank Drawee</span></div></div>
+              </div>
+              <div class="row g-3 mb-3">
+                <div class="col-md-4"><label class="f-label">Drawee Bank CIF</label><select class="f-input f-select"><option value="">Select Drawee Bank</option></select></div>
+                <div class="col-md-4"><label class="f-label">Bank Branch</label><select class="f-input f-select"><option value="">Select Branch</option></select></div>
+              </div>
+              <div class="row g-3 mb-3">
+                <div class="col-md-4"><label class="f-label">Drawee Branch</label><input class="f-input" type="text" placeholder="Enter Drawee Branch"/></div>
+                <div class="col-md-4"><label class="f-label">Drawee Name</label><input class="f-input" type="text" placeholder="Enter Drawee Name"/></div>
+                <div class="col-md-4"><label class="f-label">Drawee Country</label><select class="f-input f-select"><option value="">Select</option><option>USA</option><option>UK</option><option>France</option></select></div>
+              </div>
+              <div class="row g-3 mb-3">
+                <div class="col-md-4"><label class="f-label">Drawee Region</label><select class="f-input f-select"><option value="">Select</option></select></div>
+                <div class="col-md-4"><label class="f-label">Drawee City</label><select class="f-input f-select"><option value="">Select</option></select></div>
+                <div class="col-md-4"><label class="f-label">Drawee Street</label><input class="f-input" type="text" placeholder="Enter Street"/></div>
+              </div>
+              <div class="row g-3 mb-3">
+                <div class="col-md-4"><label class="f-label">Drawee Building No.</label><input class="f-input" type="text" placeholder="Enter Building No."/></div>
+                <div class="col-md-4"><label class="f-label">Drawee P.O.Box</label><input class="f-input" type="text" placeholder="Enter P.O.Box"/></div>
+                <div class="col-md-4"><label class="f-label">Drawee Account</label><input class="f-input" type="text" placeholder="Enter Account"/></div>
+              </div>
+            </div>
+          </div>
+          <div class="sec-card mb-3">
+            <div class="sec-hdr open" onclick="toggleSec('secSettlDet')" role="button">
+              <span>Settlement Details</span>
+              <svg class="chev" xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 10.53 7"><path d="M9.225,0L5.695,3.62,2.075.09,0,1.795,5.325,7,10.53,1.675Z" fill="#2ed88e"/></svg>
+            </div>
+            <div class="sec-body" id="secSettlDet">
+              <div class="row g-3 mb-3">
+                <div class="col-md-4"><label class="f-label">Settlement Type</label><select class="f-input f-select"><option value="">Select Type</option><option>At Sight</option><option>Deferred</option><option>Usance</option></select></div>
+                <div class="col-md-4"><label class="f-label">Payable At</label><input class="f-input" type="text" placeholder="Enter Payable At"/></div>
+                <div class="col-md-4"><label class="f-label">Days From</label><input class="f-input" type="text" placeholder="Enter Days From"/></div>
+              </div>
+              <div class="row g-3 mb-3">
+                <div class="col-md-8"><label class="f-label">Payment Details</label><input class="f-input" type="text" placeholder="Enter Payment Details"/></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Outward Bill Type -->
+        <div id="step2" class="tf-step-panel" style="display:none">
+          <div class="sec-card mb-3">
+            <div class="sec-hdr open" onclick="toggleSec('secBillType')" role="button">
+              <span>Bill Details</span>
+              <svg class="chev" xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 10.53 7"><path d="M9.225,0L5.695,3.62,2.075.09,0,1.795,5.325,7,10.53,1.675Z" fill="#2ed88e"/></svg>
+            </div>
+            <div class="sec-body" id="secBillType">
+              <div class="tf-doc-grid tf-doc-grid-2col">
+                <div class="tf-doc-row tf-doc-hdr">
+                  <div>Document</div><div>Copy</div><div>Original</div>
+                </div>
+                <div class="tf-doc-row"><div><label class="d-flex align-items-center gap-2"><input type="checkbox" style="accent-color:var(--az-green)"/> Bill of Lading</label></div><div><input class="f-input" type="number" min="0" value="0" style="width:80px"/></div><div><input class="f-input" type="number" min="0" value="0" style="width:80px"/></div></div>
+                <div class="tf-doc-row"><div><label class="d-flex align-items-center gap-2"><input type="checkbox" style="accent-color:var(--az-green)"/> Truck Consignment Note</label></div><div><input class="f-input" type="number" min="0" value="0" style="width:80px"/></div><div><input class="f-input" type="number" min="0" value="0" style="width:80px"/></div></div>
+                <div class="tf-doc-row"><div><label class="d-flex align-items-center gap-2"><input type="checkbox" style="accent-color:var(--az-green)"/> Airway Bill</label></div><div><input class="f-input" type="number" min="0" value="0" style="width:80px"/></div><div><input class="f-input" type="number" min="0" value="0" style="width:80px"/></div></div>
+                <div class="tf-doc-row"><div><label class="d-flex align-items-center gap-2"><input type="checkbox" style="accent-color:var(--az-green)"/> Delivery Order</label></div><div><input class="f-input" type="number" min="0" value="0" style="width:80px"/></div><div><input class="f-input" type="number" min="0" value="0" style="width:80px"/></div></div>
+                <div class="tf-doc-row"><div><label class="d-flex align-items-center gap-2"><input type="checkbox" style="accent-color:var(--az-green)"/> Drafts</label></div><div><input class="f-input" type="number" min="0" value="0" style="width:80px"/></div><div><input class="f-input" type="number" min="0" value="0" style="width:80px"/></div></div>
+                <div class="tf-doc-row"><div><label class="d-flex align-items-center gap-2"><input type="checkbox" style="accent-color:var(--az-green)"/> Commercial Invoice</label></div><div><input class="f-input" type="number" min="0" value="0" style="width:80px"/></div><div><input class="f-input" type="number" min="0" value="0" style="width:80px"/></div></div>
+                <div class="tf-doc-row"><div><label class="d-flex align-items-center gap-2"><input type="checkbox" style="accent-color:var(--az-green)"/> Certificate of Origin</label></div><div><input class="f-input" type="number" min="0" value="0" style="width:80px"/></div><div><input class="f-input" type="number" min="0" value="0" style="width:80px"/></div></div>
+                <div class="tf-doc-row"><div><label class="d-flex align-items-center gap-2"><input type="checkbox" style="accent-color:var(--az-green)"/> Packing list</label></div><div><input class="f-input" type="number" min="0" value="0" style="width:80px"/></div><div><input class="f-input" type="number" min="0" value="0" style="width:80px"/></div></div>
+                <div class="tf-doc-row"><div><label class="d-flex align-items-center gap-2"><input type="checkbox" style="accent-color:var(--az-green)"/> Weight List</label></div><div><input class="f-input" type="number" min="0" value="0" style="width:80px"/></div><div><input class="f-input" type="number" min="0" value="0" style="width:80px"/></div></div>
+                <div class="tf-doc-row"><div><label class="d-flex align-items-center gap-2"><input type="checkbox" style="accent-color:var(--az-green)"/> Certificate of Analysis</label></div><div><input class="f-input" type="number" min="0" value="0" style="width:80px"/></div><div><input class="f-input" type="number" min="0" value="0" style="width:80px"/></div></div>
+                <div class="tf-doc-row"><div><label class="d-flex align-items-center gap-2"><input type="checkbox" style="accent-color:var(--az-green)"/> Other</label></div><div><input class="f-input" type="number" min="0" value="0" style="width:80px"/></div><div><input class="f-input" type="number" min="0" value="0" style="width:80px"/></div></div>
+                <div class="tf-doc-row"><div><label class="d-flex align-items-center gap-2"><input type="checkbox" style="accent-color:var(--az-green)"/> Other</label></div><div><input class="f-input" type="number" min="0" value="0" style="width:80px"/></div><div><input class="f-input" type="number" min="0" value="0" style="width:80px"/></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="sec-card mb-3">
+            <div class="sec-hdr open" onclick="toggleSec('secGoodsDet')" role="button">
+              <span>Goods Details</span>
+              <svg class="chev" xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 10.53 7"><path d="M9.225,0L5.695,3.62,2.075.09,0,1.795,5.325,7,10.53,1.675Z" fill="#2ed88e"/></svg>
+            </div>
+            <div class="sec-body" id="secGoodsDet">
+              <div class="row g-3 mb-3">
+                <div class="col-md-4"><label class="f-label">Country Goods</label><select class="f-input f-select"><option value="">Select</option><option>USA</option><option>UK</option><option>France</option></select></div>
+                <div class="col-md-4"><label class="f-label">Goods Categories</label><select class="f-input f-select"><option value="">Select</option></select></div>
+                <div class="col-md-4"><label class="f-label">Goods</label><select class="f-input f-select"><option value="">Select</option></select></div>
+              </div>
+              <div class="row g-3 mb-3">
+                <div class="col-md-4"><label class="f-label">Port Of Loading</label><input class="f-input" type="text" placeholder="Enter Port Of Loading"/></div>
+                <div class="col-md-4"><label class="f-label">Port Of Arrival</label><input class="f-input" type="text" placeholder="Enter Port Of Arrival"/></div>
+              </div>
+            </div>
+          </div>
+          <div class="sec-card mb-3">
+            <div class="sec-hdr open" onclick="toggleSec('secAttachOB')" role="button">
+              <span>Attachement</span>
+              <svg class="chev" xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 10.53 7"><path d="M9.225,0L5.695,3.62,2.075.09,0,1.795,5.325,7,10.53,1.675Z" fill="#2ed88e"/></svg>
+            </div>
+            <div class="sec-body" id="secAttachOB">
+              <div class="attach-zone" onclick="document.getElementById('fileInpOB').click()">
+                <div class="attach-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#0085db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="28" height="28"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg></div>
+                <div><a class="attach-link">Choose file</a></div>
+              </div>
+              <input type="file" id="fileInpOB" style="display:none"/>
+              <div class="row g-3 mt-2">
+                <div class="col-md-6"><label class="f-label">File Comment</label><input class="f-input" type="text" placeholder="Enter File Comment"/></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Footer -->
+        <div class="form-footer" id="formFooter">
+          <div class="tc"><input type="checkbox" id="tc" style="accent-color:var(--az-green);cursor:pointer;width:16px;height:16px;"/><label for="tc"><a href="#" style="color:#0067AB;text-decoration:none">I Agree On Terms And Conditions</a></label></div>
+          <a href="#" onclick="history.back()" class="btn-action btn-cancel">CANCEL</a>
+          <button class="btn-action btn-save" onclick="saveStep()">SAVE</button>
+          <button id="btnPrev" class="btn-action btn-cancel" onclick="prevStep()" style="display:none">PREVIOUS</button>
+          <button id="btnNext" class="btn-action btn-submit" onclick="nextStep()">NEXT</button>
+          <button id="btnSubmit" class="btn-action btn-submit" onclick="submitForm()" style="display:none">SUBMIT</button>
+        </div>
+      </div>
+      <div>
+        <div class="tf-summary">
+          <div class="tf-summary-title" id="summaryHint">Please fill in your <strong>Outward Bill Details</strong> in the form.<br/>You can return to the main menu using the left navigation panel.</div>
+          <div id="summaryItems"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="app-footer" role="contentinfo">
+    <div>Copyright 2025. All Rights Reserved <a href="#">Terms and conditions</a><a href="about-app.html" target="_blank">About App</a></div>
+    <div class="d-flex align-items-center gap-2"><a href="accessibility-commitment.html" target="_blank">Accessibility</a>
+      <div class="acc-btns">
+        <button class="acc-btn">A<sup>-</sup></button><button class="acc-btn">A</button><button class="acc-btn">A<sup>+</sup></button>
+        <button class="acc-btn" style="background:var(--az-navy);color:#fff">&#9681;</button>
+      </div>
+    </div>
+  </footer>
+</div>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/app.js"></script>
+<script>
+var _step = 1, _totalSteps = 2;
+var _stepTitles = ['Outward Bill Details','Outward Bill Type'];
+function showStep(n) {
+  document.querySelectorAll('.tf-step-panel').forEach(function(p,i){ p.style.display=(i+1===n)?'':'none'; });
+  document.querySelectorAll('.tf-wiz-step').forEach(function(s,i){ s.classList.toggle('active',i+1===n); });
+  _step = n;
+  document.getElementById('pageTitle').textContent = _stepTitles[n-1];
+  document.getElementById('btnPrev').style.display = n > 1 ? '' : 'none';
+  document.getElementById('btnNext').style.display = n < _totalSteps ? '' : 'none';
+  document.getElementById('btnSubmit').style.display = n === _totalSteps ? '' : 'none';
+  updateSummary(n);
+}
+function nextStep(){ if(_step < _totalSteps) showStep(_step+1); }
+function prevStep(){ if(_step > 1) showStep(_step-1); }
+function saveStep(){ alert('Step saved.'); }
+function submitForm(){ alert('Form submitted.'); }
+function updateSummary(n) {
+  var names = _stepTitles;
+  var hint = document.getElementById('summaryHint');
+  var items = document.getElementById('summaryItems');
+  if(n === 1) {
+    hint.innerHTML = 'Please fill in your <strong>'+names[0]+'</strong> details in the form.<br/>You can return to the main menu using the left navigation panel.';
+    items.innerHTML = '';
+  } else {
+    hint.innerHTML = '<strong>You have entered</strong>';
+    var html = '';
+    for(var i=0;i<n-1;i++){ html += '<div class="tf-summary-item"><span>'+names[i]+'</span><svg xmlns="http://www.w3.org/2000/svg" width="10" height="7" viewBox="0 0 10.53 7"><path d="M9.225,0L5.695,3.62,2.075.09,0,1.795,5.325,7,10.53,1.675Z" fill="#2ed88e"/></svg></div>'; }
+    items.innerHTML = html;
+  }
+}
+function updateCurrFlag(sel) {
+  var flagMap={'USD':'us','EUR':'eu','GBP':'gb','IQD':'iq','LBP':'lb','MRU':'mr'};
+  var flag=sel.closest('.amount-curr').querySelector('.amount-flag');
+  if(flag){var fc=flagMap[sel.value]||'us';flag.className='fi fi-'+fc+' amount-flag';}
+}
+document.addEventListener('DOMContentLoaded',function(){ showStep(1); });
+</script>
+</body>
+</html>
